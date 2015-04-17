@@ -14,7 +14,17 @@ public class BoardModel {
 	private String searchText="";
 	private int listCount=10;
 	private int pagePerBlock=10;
+	private int startIndex=0;
 	
+	
+	
+	public int getStartIndex() {
+		startIndex = listCount*(Integer.parseInt(pageNum)-1);
+		return startIndex;
+	}
+	public void setStartIndex(int startIndex) {
+		this.startIndex = startIndex;
+	}
 	public int getNum() {
 		return num;
 	}

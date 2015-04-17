@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.websocket.SendResult;
 
 import dao.board.BoardDAO;
+import dao.board.BoardDAOImpl;
+import dao.board.BoardMyBatisDAO;
 import model.board.BoardModel;
 
 /**
@@ -19,6 +21,7 @@ import model.board.BoardModel;
 @WebServlet("/board/boardModifyServlet")
 public class BoardModifyServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	BoardDAOImpl boardDAO = null;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -75,7 +78,7 @@ public class BoardModifyServlet extends HttpServlet {
 		boardModel.setContents(contents);
 		boardModel.setIp(request.getRemoteAddr());
 		
-		BoardDAO boardDAO = new BoardDAO();
+		boardDAO = new BoardMyBatisDAO();
 		
 		boardDAO.update(boardModel);
 		

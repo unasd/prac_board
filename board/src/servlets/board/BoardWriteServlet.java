@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import model.board.BoardModel;
 import dao.board.BoardDAO;
+import dao.board.BoardDAOImpl;
+import dao.board.BoardMyBatisDAO;
 
 /**
  * Servlet implementation class BoardWriteServlet
@@ -18,6 +20,8 @@ import dao.board.BoardDAO;
 @WebServlet("/board/boardWriteServlet")
 public class BoardWriteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	//private BoardDAO boardDAO = null;
+	private BoardDAOImpl boardDAO = null;
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -40,7 +44,8 @@ public class BoardWriteServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		request.setCharacterEncoding("UTF-8");
-		BoardDAO boardDAO = new BoardDAO();
+		//boardDAO = new BoardDAO();
+		boardDAO = new BoardMyBatisDAO();
 		String subject = request.getParameter("subject");
 		String writer = request.getParameter("writer");
 		String contents = request.getParameter("contents");

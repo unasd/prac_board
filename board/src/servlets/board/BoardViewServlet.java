@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dao.board.BoardDAO;
+import dao.board.BoardDAOImpl;
+import dao.board.BoardMyBatisDAO;
 import model.board.BoardModel;
 
 /**
@@ -18,7 +20,8 @@ import model.board.BoardModel;
 @WebServlet("/board/boardViewServlet")
 public class BoardViewServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private BoardDAO boardDAO = null;
+	//private BoardDAO boardDAO = null;
+	private BoardDAOImpl boardDAO = null;
 
     public BoardViewServlet() {
         super();
@@ -29,7 +32,7 @@ public class BoardViewServlet extends HttpServlet {
 		String pageNum = request.getParameter("pageNum");
 		String searchType = request.getParameter("searchType");
 		String searchText = request.getParameter("searchText");
-		System.out.println(num);
+		//System.out.println(num);
 		
 		BoardModel boardModel = new BoardModel();
 		boardModel.setNum(num);
@@ -37,7 +40,8 @@ public class BoardViewServlet extends HttpServlet {
 		boardModel.setSearchType(searchType);
 		boardModel.setSearchText(searchText);
 		
-		this.boardDAO = new BoardDAO();
+		//this.boardDAO = new BoardDAO();
+		this.boardDAO = new BoardMyBatisDAO();
 		this.boardDAO.updateHit(boardModel);
 		boardModel = this.boardDAO.select(boardModel);
 		

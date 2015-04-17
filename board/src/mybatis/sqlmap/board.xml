@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="board">
+
+	<!-- 조건문 -->
+	<sql id="where">
+		<where>
+			<if test="searchText != ''">
+				<if test="searchType=='ALL'">
+					SUBJECT LIKE CONCAT ('%', #{searchText}, '%') OR WRITER LIKE CONCAT ('%', #{searchText}, '%') OR CONTENTS LIKE CONCAT ('%', #{searchText}, '%')
+				</if>
+				<if test="searchType=='SUBJECT'">
+					SUBJECT LIKE CONCAT ('%', #{searchText}, '%')
+				</if>
+				<if test="searchType=='WRITER'">
+					WRITER LIKE CONCAT ('%', #{searchText}, '%')
+				</if>
+				<if test="searchType=='CONTENTS'">
+					CONTENTS LIKE CONCAT ('%', #{searchText}, '%')
+				</if>
+			</if>
+		</where>	
+	</sql>
+	
+	<!-- 목록조회 -->
+	<select id="selectList" parameterType="BoardModel" resultType="BoardModel">
+		SELECT
+			NUM
+			,SUBJECT
+			,WRITER
+			,CONTENTS
+			,IP
+			,HIT
+			,REG_DATE
+			,MOD_DATE
+		FROM
+			BOARD
+		<include refid="where" />
+		ORDER BY NUM DESC 
+		LIMIT #{startIndex}, #{listCount}
+	</select>
+	
+	<!-- 전체게시글 개수 -->
+	<select id="selectCount" parameterType="BoardModel" resultType="int">
+		SELECT COUNT(NUM) FROM BOARD
+		<include refid="where" />
+	</select>
+	
+	<!-- 게시글 한 개 조회 -->
+	<select id="select" parameterType="boardModel" resultType="boardModel">
+		SELECT * FROM board WHERE NUM=${num}
+	</select>
+	
+	<!-- 조회수 증가 -->
+	<update id="updateHit" parameterType="boardModel">
+		UPDATE board SET HIT=HIT+1 WHERE NUM=${num}
+	</update>
+	
+	<!-- 게시글 입력 -->
+	<insert id="insert" parameterType="boardModel">
+		INSERT INTO board(
+			subject
+			, writer
+			, contents
+			, ip
+			, hit
+			, reg_date
+			, mod_date
+		) VALUES (
+			#{subject}
+			, #{writer}
+			, #{contents}
+			, #{ip}
+			, 0
+			, now()
+			, now()
+		)
+	</insert>
+	
+	<!-- 게시글 수정 -->
+	<update id="update" parameterType="boardModel">
+		UPDATE board SET 
+			subject=#{subject}
+			, writer=#{writer}
+			, contents=#{contents}
+			, ip=#{ip}
+			, mod_date=now()
+		WHERE 
+			num=#{num}
+	</update>
+	
+	<!-- 게시글 삭제 -->
+	<delete id="delete" parameterType="boardModel">
+		DELETE FROM board WHERE num=#{num}
+	</delete>
+</mapper>

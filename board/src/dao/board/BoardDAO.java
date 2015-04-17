@@ -12,7 +12,7 @@ import com.sun.xml.internal.ws.Closeable;
 
 import model.board.BoardModel;
 
-public class BoardDAO {
+public class BoardDAO implements BoardDAOImpl {
 	Connection conn;
 	PreparedStatement pstmt;
 	ResultSet rs;

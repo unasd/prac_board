@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import dao.board.BoardDAO;
+import dao.board.BoardDAOImpl;
+import dao.board.BoardMyBatisDAO;
 import model.board.BoardModel;
 
 /**
@@ -17,7 +19,8 @@ import model.board.BoardModel;
 @WebServlet("/board/boardDeleteServlet")
 public class BoardDeleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
+	//private BoardDAO boardDAO = null;
+    private BoardDAOImpl boardDAO = null;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -40,7 +43,8 @@ public class BoardDeleteServlet extends HttpServlet {
 		boardModel.setPageNum(pageNum);
 		boardModel.setSearchType(searchType);
 		boardModel.setSearchText(searchText);
-		BoardDAO boardDAO = new BoardDAO();
+		//boardDAO = new BoardDAO();
+		boardDAO = new BoardMyBatisDAO();
 		boardDAO.delete(boardModel);
 		
 		response.sendRedirect("boardListServlet");

@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletResponse;
 import util.PageNavigator;
 import model.board.BoardModel;
 import dao.board.BoardDAO;
+import dao.board.BoardDAOImpl;
+import dao.board.BoardMyBatisDAO;
 
 /**
  * Servlet implementation class BoardListServlet
@@ -23,7 +25,8 @@ import dao.board.BoardDAO;
 @WebServlet("/board/boardListServlet")
 public class BoardListServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private BoardDAO boardDAO = null;
+	//private BoardDAO boardDAO = null;
+	private BoardDAOImpl boardDAO = null;
 	 
     public BoardListServlet() {
         super();
@@ -32,7 +35,7 @@ public class BoardListServlet extends HttpServlet {
 
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("boardList Get");
+		//System.out.println("boardList Get");
 		String pageNum = request.getParameter("pageNum");
 		String searchType = request.getParameter("searchType");
 		String searchText = request.getParameter("searchText");
@@ -52,9 +55,11 @@ public class BoardListServlet extends HttpServlet {
 		boardModel.setSearchType(searchType);
 		boardModel.setSearchText(searchText);
 		
-		this.boardDAO = new BoardDAO();
+		//this.boardDAO = new BoardDAO();
+		this.boardDAO = new BoardMyBatisDAO();
 		
 		int totalCount = this.boardDAO.selectCount(boardModel);
+		//System.out.println("boardListServlet totalCount : "+totalCount);
 		List<BoardModel> boardList = this.boardDAO.selectList(boardModel);
 		
 		request.setAttribute("totalCount", totalCount);
