@@ -58,7 +58,7 @@
 		</tbody>
 	</table>
 	<p>
-		<input type="button" value="목록" onclick="goUrl('<%=request.getContextPath()%>/board/boardListServlet?pageNum=<%=boardModel.getPageNum()%>&searchType=<%=boardModel.getSearchType()%>&searchText=<%=boardModel.getSearchText() %>');" />
+		<input type="button" value="목록" onclick="goUrl('<%=request.getContextPath()%>/spring/board/boardListServlet?pageNum=<%=boardModel.getPageNum()%>&searchType=<%=boardModel.getSearchType()%>&searchText=<%=boardModel.getSearchText() %>');" />
 		<input type="submit" value="글수정" />
 	</p>
 	</form>

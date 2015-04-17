@@ -48,7 +48,18 @@
 	
 	<!-- 게시글 한 개 조회 -->
 	<select id="select" parameterType="boardModel" resultType="boardModel">
-		SELECT * FROM board WHERE NUM=${num}
+		SELECT 
+			num
+			,subject
+			,writer
+			,contents
+			,ip
+			,hit
+			,reg_date
+			,mod_date
+		FROM 
+			board 
+		WHERE NUM=${num}
 	</select>
 	
 	<!-- 조회수 증가 -->

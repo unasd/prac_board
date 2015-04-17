@@ -7,7 +7,9 @@ import mybatis.MyBatis;
 
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.springframework.stereotype.Repository;
 
+@Repository("boardMyBatisDAO")
 public class BoardMyBatisDAO implements BoardDAOImpl {
 	private SqlSessionFactory sessionFactory = null;
 	

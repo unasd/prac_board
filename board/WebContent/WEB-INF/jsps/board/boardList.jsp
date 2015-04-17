@@ -46,7 +46,7 @@
 </script>
 </head>
 <body>
-	<form name="searchForm" action="boardList.jsp" method="get" onsubmit="return searchCheck();">
+	<form name="searchForm" action="<%=request.getContextPath() %>/spring/board/boardListServlet" method="get" onsubmit="return searchCheck();">
 	<p>
 		<select name="searchType">
 			<option value="ALL" selected="selected">전체검색</option>
@@ -87,16 +87,16 @@
 			} else {
 				//int i = 0;
 				for(int i=0;i<boardList.size();i++){
-					BoardModel boardModel2 = new BoardModel();
-					boardModel2 = boardList.get(i);
+					//boardModel = new BoardModel();
+					boardModel = boardList.get(i);
 					//i++;					
 		    %>
 			<tr>
 				<td align="center"><%=totalCount - i +1 -(pageNum-1) *listCount%></td>
-				<td><a href="boardViewServlet?num=<%=boardModel2.getNum()%>&amp;pageNum=<%=boardModel2.getPageNum()%>&amp;searchType=<%=searchType%>&amp;searchText=<%=searchText%>"><%=boardModel2.getSubject() %></a></td>
-				<td align="center"><%=boardModel2.getWriter() %></td>
-				<td align="center"><%=boardModel2.getReg_date().substring(0, 10) %></td>
-				<td align="center"><%=boardModel2.getHit() %></td>
+				<td><a href="boardViewServlet?num=<%=boardModel.getNum()%>&amp;pageNum=<%=boardModel.getPageNum()%>&amp;searchType=<%=searchType%>&amp;searchText=<%=searchText%>"><%=boardModel.getSubject() %></a></td>
+				<td align="center"><%=boardModel.getWriter() %></td>
+				<td align="center"><%=boardModel.getReg_date().substring(0, 10) %></td>
+				<td align="center"><%=boardModel.getHit() %></td>
 			</tr>
 			<%
 				}
@@ -115,8 +115,8 @@
 	<p>
 		<!-- <input type="button" id="list" value="목록" />
 		<input type="button" id="write" value="글쓰기" /> -->
-		<input type="button" value="목록" onclick="goUrl('<%=request.getContextPath()%>/board/boardListServlet');" />
-		<input type="button" value="글쓰기" onclick="goUrl('<%=request.getContextPath()%>/board/boardWriteServlet')" />
+		<input type="button" value="목록" onclick="goUrl('<%=request.getContextPath()%>/spring/board/boardListServlet');" />
+		<input type="button" value="글쓰기" onclick="goUrl('<%=request.getContextPath()%>/spring/board/boardWriteServlet')" />
 	</p>
 </body>
 </html>

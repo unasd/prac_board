@@ -8,6 +8,7 @@
 </head>
 <body>
 	<a href="<%=request.getContextPath()%>/board/boardList.jsp">게시판</a><br/>
-	<a href="http://localhost:8080/board/board/boardListServlet">mvc게시판1</a>
+	<a href="http://localhost:8080/board/board/boardListServlet">mvc게시판1</a><br/>
+	<a href="http://localhost:8080/board/spring/board/boardListServlet">Spring 게시판</a>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <%@ page import="java.sql.*" %>
 <%
 	BoardModel boardModel = (BoardModel)request.getAttribute("boardModel");
-	//System.out.println(boardModel.getSubject());
+	//System.out.println("boardView.jsp searchText : "+boardModel.getSearchText());
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -47,9 +47,9 @@
 		</tbody>
 	</table>
 	<p class="btn_align">
-		<input type="button" value="목록" onclick="goUrl('<%=request.getContextPath()%>/board/boardListServlet?pageNum=<%=boardModel.getPageNum()%>&searchType=<%=boardModel.getSearchType()%>&searchText=<%=boardModel.getSearchText() %>');" />
-		<input type="button" value="수정" onclick="goUrl('<%=request.getContextPath()%>/board/boardModifyServlet?num=<%=boardModel.getNum()%>&amp;pageNum=<%=boardModel.getPageNum()%>&amp;searchType=<%=boardModel.getSearchType()%>&amp;searchText=<%=boardModel.getSearchText() %>');" />
-		<input type="button" value="삭제" onclick="goUrl('<%=request.getContextPath()%>/board/boardDeleteServlet?num=<%=boardModel.getNum()%>&amp;pageNum=<%=boardModel.getPageNum()%>&amp;searchType=<%=boardModel.getSearchType()%>&amp;searchText=<%=boardModel.getSearchText() %>');" />
+		<input type="button" value="목록" onclick="goUrl('<%=request.getContextPath()%>/spring/board/boardListServlet?pageNum=<%=boardModel.getPageNum()%>&searchType=<%=boardModel.getSearchType()%>&searchText=<%=boardModel.getSearchText() %>');" />
+		<input type="button" value="수정" onclick="goUrl('<%=request.getContextPath()%>/spring/board/boardModifyServlet?num=<%=boardModel.getNum()%>&amp;pageNum=<%=boardModel.getPageNum()%>&amp;searchType=<%=boardModel.getSearchType()%>&amp;searchText=<%=boardModel.getSearchText() %>');" />
+		<input type="button" value="삭제" onclick="goUrl('<%=request.getContextPath()%>/spring/board/boardDeleteServlet?num=<%=boardModel.getNum()%>&amp;pageNum=<%=boardModel.getPageNum()%>&amp;searchType=<%=boardModel.getSearchType()%>&amp;searchText=<%=boardModel.getSearchText() %>');" />
 	</p>
 </body>
 </html>
