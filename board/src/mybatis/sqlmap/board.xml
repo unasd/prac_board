@@ -3,23 +3,23 @@
 <mapper namespace="board">
 
 	<!-- 조건문 -->
-	<sql id="where">
+	<sql id="where"> 	
 		<where>
-			<if test="searchText != ''">
-				<if test="searchType=='ALL'">
-					SUBJECT LIKE CONCAT ('%', #{searchText}, '%') OR WRITER LIKE CONCAT ('%', #{searchText}, '%') OR CONTENTS LIKE CONCAT ('%', #{searchText}, '%')
-				</if>
-				<if test="searchType=='SUBJECT'">
-					SUBJECT LIKE CONCAT ('%', #{searchText}, '%')
-				</if>
-				<if test="searchType=='WRITER'">
-					WRITER LIKE CONCAT ('%', #{searchText}, '%')
-				</if>
-				<if test="searchType=='CONTENTS'">
-					CONTENTS LIKE CONCAT ('%', #{searchText}, '%')
-				</if>
+		<if test="searchText != ''">
+			<if test="searchType == 'ALL'">
+			SUBJECT LIKE CONCAT('%',#{searchText},'%') OR WRITER LIKE CONCAT('%',#{searchText},'%') OR CONTENTS LIKE CONCAT('%',#{searchText},'%')
 			</if>
-		</where>	
+			<if test="searchType == 'SUBJECT'">
+			SUBJECT LIKE CONCAT('%',#{searchText},'%')
+			</if>
+			<if test="searchType == 'WRITER'">
+			WRITER LIKE CONCAT('%',#{searchText},'%')
+			</if>
+			<if test="searchType == 'CONTENTS'">
+			CONTENTS LIKE CONCAT('%',#{searchText},'%')
+			</if>
+		</if> 
+		</where>
 	</sql>
 	
 	<!-- 목록조회 -->
@@ -40,7 +40,7 @@
 		LIMIT #{startIndex}, #{listCount}
 	</select>
 	
-	<!-- 전체게시글 개수 -->
+	<!-- 게시판 수 조회 -->
 	<select id="selectCount" parameterType="BoardModel" resultType="int">
 		SELECT COUNT(NUM) FROM BOARD
 		<include refid="where" />
@@ -103,5 +103,37 @@
 	<!-- 게시글 삭제 -->
 	<delete id="delete" parameterType="boardModel">
 		DELETE FROM board WHERE num=#{num}
+	</delete>
+	
+	<!-- 댓글 조회 -->
+	<select id="commentSelect" parameterType="commentModel" resultType="commentModel">
+		SELECT 
+			idx
+			, comment_writer
+			, comment_content
+			, write_date
+		FROM comment
+		WHERE linked_article_num=#{linked_article_num}
+		ORDER BY idx
+	</select>
+	
+	<!-- 댓글 입력 -->
+	<insert id="commentWrite" parameterType="commentModel">
+		INSERT INTO COMMENT(
+			  comment_writer
+			, comment_content
+			, write_date
+			, linked_article_num
+		) VALUES (
+			  #{comment_writer}
+			, #{comment_content}
+			, NOW()
+			, #{linked_article_num}
+		)
+	</insert>
+	
+	<!-- 댓글 삭제 -->
+	<delete id="commentDelete" parameterType="commentModel">
+		DELETE FROM COMMENT WHERE idx=#{idx}
 	</delete>
 </mapper>

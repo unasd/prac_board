@@ -2,7 +2,8 @@
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0/EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
 	<typeAliases>
-		<typeAlias type="model.board.BoardModel"/>
+		<typeAlias type="model.board.BoardModel" alias="boardModel"/>
+		<typeAlias type="model.board.CommentModel" alias="commentModel"/>
 	</typeAliases>
 	<environments default="development">
 		<environment id="development">

@@ -3,6 +3,7 @@ package dao.board;
 import java.util.List;
 
 import model.board.BoardModel;
+import model.board.CommentModel;
 import mybatis.MyBatis;
 
 import org.apache.ibatis.session.SqlSession;
@@ -36,7 +37,7 @@ public class BoardMyBatisDAO implements BoardDAOImpl {
 	public int selectCount(BoardModel boardModel) {
 		SqlSession session = this.sessionFactory.openSession();
 		try{
-			return session.selectOne("board.selectCount");
+			return session.selectOne("board.selectCount", boardModel);
 		} catch(Exception err){
 			err.printStackTrace();
 		} finally {
@@ -117,4 +118,49 @@ public class BoardMyBatisDAO implements BoardDAOImpl {
 			}
 		}
 	}
+
+	@Override
+	public void commentWrite(CommentModel commentModel) {
+		SqlSession session = this.sessionFactory.openSession();
+		try{
+			session.insert("board.commentWrite", commentModel);
+		} catch (Exception err){
+			err.printStackTrace();
+		} finally {
+			if(session!=null){
+				session.close();
+			}
+		}
+	}
+
+	@Override
+	public List<CommentModel> commentSelect(CommentModel commentModel) {
+		SqlSession session = this.sessionFactory.openSession();
+		try{
+			return session.selectList("board.commentSelect", commentModel);
+		} catch (Exception err){
+			err.printStackTrace();
+		} finally {
+			if(session!=null){
+				session.close();
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public void commentDelete(CommentModel commentModel) {
+		SqlSession session = this.sessionFactory.openSession();
+		try{
+			session.delete("board.commentDelete", commentModel);
+		} catch (Exception err){
+			err.printStackTrace();
+		} finally {
+			if(session!=null){
+				session.close();
+			}
+		}
+	}
+	
+	
 }

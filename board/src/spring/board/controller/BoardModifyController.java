@@ -26,32 +26,42 @@ public class BoardModifyController {
 	
 	@RequestMapping(value="board/boardModifyServlet", method=RequestMethod.GET)
 	public ModelAndView modiForm(HttpServletRequest request, BoardModel boardModel){
-		//System.out.println("modifyGet");
-		/*int num = boardModel.getNum();
 		String pageNum = boardModel.getPageNum();
 		String searchType = boardModel.getSearchType();
-		String searchText = boardModel.getSearchText();*/
+		String searchText = boardModel.getSearchText();
+		
+		//mav.addObject("boardModel", boardDAO.select(boardModel));
+		boardModel = boardDAO.select(boardModel);
+		boardModel.setPageNum(pageNum);
+		boardModel.setSearchType(searchType);
+		boardModel.setSearchText(searchText);
 		
 		ModelAndView mav = new ModelAndView();
-		mav.setViewName("/board/boardModify");
-		mav.addObject("boardModel", boardDAO.select(boardModel));
+		mav.addObject("boardModel", boardModel);
 		
+		mav.setViewName("/board/boardModify");
 		return mav;
 	}
 	
 	@RequestMapping(value="board/boardModifyServlet", method=RequestMethod.POST)
-	public ModelAndView update(HttpServletRequest request, HttpServletResponse response, BoardModel boardModel, Model model) throws IOException{
-		
-		System.out.println(request.getCharacterEncoding());
-		System.out.println(request.getContentType());
+	public ModelAndView update(HttpServletRequest request, BoardModel boardModel) throws IOException{
+		String pageNum = boardModel.getPageNum();
+		String searchType = boardModel.getSearchType();
+		String searchText = boardModel.getSearchText();
 		String ip = request.getRemoteAddr();
+		
 		boardModel.setIp(ip);
 		boardDAO.update(boardModel);
 		
+		boardModel = boardDAO.select(boardModel);
+		boardModel.setPageNum(pageNum);
+		boardModel.setSearchType(searchType);
+		boardModel.setSearchText(searchText);
+		
 		ModelAndView mav = new ModelAndView();
+		mav.addObject("boardModel", boardModel);
+		
 		mav.setViewName("/board/boardView");
-		mav.addObject("boardModel", boardDAO.select(boardModel));
-		//model.addAttribute("boardModel", boardModel);
 		return mav;
 	}
 }

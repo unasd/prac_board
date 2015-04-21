@@ -1,7 +1,7 @@
 package util;
 
 public class PageNavigator {
-	public String getNavigator(int totalCount, int listCount, int pagePerBlock,
+	public String getPageNavigator(int totalCount, int listCount, int pagePerBlock,
 									int pageNum, String searchType, String searchText){
 		StringBuffer sb = new StringBuffer();
 		if(totalCount > 0){

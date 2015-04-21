@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import model.board.BoardModel;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -22,12 +23,11 @@ public class BoardListController {
 	
 	@RequestMapping("/board/boardListServlet")
 	public ModelAndView selectList(HttpServletRequest request, BoardModel boardModel){
-		//System.out.println("selectList");
 		String pageNum = boardModel.getPageNum();
 		String searchType = boardModel.getSearchType();
 		String searchText = boardModel.getSearchText();
 		
-		if(pageNum==null){
+		/*if(pageNum==null){
 			pageNum = "1";
 		}
 		
@@ -35,17 +35,17 @@ public class BoardListController {
 		if(searchText == null){
 			searchType = "";
 			searchText = "";
-		}
+		}*/
 		
 		int totalCount = boardDAO.selectCount(boardModel);
 		List<BoardModel> boardList = boardDAO.selectList(boardModel);
 		
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("totalCount", totalCount);
-		mav.addObject("boardModel", boardModel);
-		mav.addObject("pageNavigator", new PageNavigator().getNavigator(totalCount, boardModel.getListCount(), 
-					boardModel.getPagePerBlock(), Integer.parseInt(boardModel.getPageNum()), searchType, searchText));
+		mav.addObject("pageNavigator", new PageNavigator().getPageNavigator(totalCount, boardModel.getListCount(), 
+					boardModel.getPagePerBlock(), Integer.parseInt(pageNum), searchType, searchText));
 		mav.addObject("boardList", boardList);
+		mav.addObject("boardModel", boardModel);
 		mav.setViewName("/board/boardList");
 		return mav;
 	}

@@ -1,18 +1,6 @@
-<%@page import="java.util.ArrayList"%>
-<%@page import="model.board.BoardModel"%>
-<%@page import="java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="java.sql.*" %>
-<%
-	List<BoardModel> boardList = (ArrayList)request.getAttribute("boardList");
-	BoardModel boardModel = (BoardModel)request.getAttribute("boardModel");
-	String searchType = boardModel.getSearchType();
-	String searchText = boardModel.getSearchText();
-	int pageNum = Integer.parseInt(boardModel.getPageNum());
-	int listCount = boardModel.getListCount();
-	int totalCount = (Integer)request.getAttribute("totalCount");
-	String pageNavigator = (String)request.getAttribute("pageNavigator");
-%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -46,20 +34,20 @@
 </script>
 </head>
 <body>
-	<form name="searchForm" action="<%=request.getContextPath() %>/spring/board/boardListServlet" method="get" onsubmit="return searchCheck();">
+	<form name="searchForm" action="${pageContext.request.contextPath}/spring/board/boardListServlet" method="get" onsubmit="return searchCheck();">
 	<p>
 		<select name="searchType">
 			<option value="ALL" selected="selected">전체검색</option>
-			<option value="SUBJECT" <%if ("SUBJECT".equals(searchType)) out.print("selected=\"selected\""); %>>제목</option>
-			<option value="WRITER" <%if ("WRITER".equals(searchType)) out.print("selected=\"selected\""); %>>작성자</option>
-			<option value="CONTENTS" <%if ("CONTENTS".equals(searchType)) out.print("selected=\"selected\""); %>>내용</option>
+			<c:if test="${boardModel.searchType eq 'SUBJECT' }"></c:if>
+			<option value="SUBJECT" <c:if test="${boardModel.searchType eq 'SUBJECT' }">selected="selected"</c:if>>제목</option>
+			<option value="WRITER" <c:if test="${boardModel.searchType eq 'WRITER' }">selected="selected"</c:if>>작성자</option>
+			<option value="CONTENTS" <c:if test="${boardModel.searchType eq 'CONTENTS' }">selected="selected"</c:if>>내용</option>
 		</select>
-		<input type="text" name="searchText" value="<%=searchText%>"/>
+		<input type="text" name="searchText" value="${boardModel.searchText}"/>
 		<input type="submit" value="검색" />
 	</p>
 	</form>
 	<table border="1" summary="게시판 목록">
-		<caption>게시판 목록</caption>
 		<colgroup>
 			<col width="50"/>
 			<col width="300" />
@@ -77,46 +65,39 @@
 			</tr>
 		</thead>
 		<tbody>
-			<% 
-			if(totalCount == 0){
-			%>
-			<tr>
-				<td align="center" colspan="5">등록된 게시물이 없습니다.</td>
-			</tr>
-			<%
-			} else {
-				//int i = 0;
-				for(int i=0;i<boardList.size();i++){
-					//boardModel = new BoardModel();
-					boardModel = boardList.get(i);
-					//i++;					
-		    %>
-			<tr>
-				<td align="center"><%=totalCount - i +1 -(pageNum-1) *listCount%></td>
-				<td><a href="boardViewServlet?num=<%=boardModel.getNum()%>&amp;pageNum=<%=boardModel.getPageNum()%>&amp;searchType=<%=searchType%>&amp;searchText=<%=searchText%>"><%=boardModel.getSubject() %></a></td>
-				<td align="center"><%=boardModel.getWriter() %></td>
-				<td align="center"><%=boardModel.getReg_date().substring(0, 10) %></td>
-				<td align="center"><%=boardModel.getHit() %></td>
-			</tr>
-			<%
-				}
-			}
-			%>
+			<c:choose>
+				<c:when test="${totalCount eq 0 }">
+					<tr>
+						<td align="center" colspan="5">등록된 게시물이 없습니다.</td>
+					</tr>
+				</c:when>
+			    <c:otherwise>
+			    	<c:forEach items="${boardList }" var="bm" varStatus="status">
+					<tr>
+						<td align="center"><c:out value="${totalCount - (status.index+1) +1 -(boardModel.pageNum-1) * boardModel.listCount}"></c:out></td>
+						<td><a href="boardViewServlet?num=${bm.num }&pageNum=${boardModel.pageNum }&searchType=${boardModel.searchType }&searchText=${boardModel.searchText}">${bm.subject }</a></td>
+						<td align="center">${bm.writer }</td>
+						<fmt:parseDate value="${bm.reg_date }" var="date" pattern="yyyy-MM-dd HH:mm:ss" />
+						<%-- <td align="center"><fmt:formatDate value="${date}" type="both" dateStyle="short" timeStyle="short"/></td> --%>
+						<td align="center" width="100"><fmt:formatDate value="${date}" pattern="yyyy/MM/dd HH:mm:ss"/></td>
+						<td align="center">${bm.hit }</td>
+					</tr>
+					</c:forEach>
+				</c:otherwise>
+			</c:choose>
 		</tbody>
 		<tfoot>
 			<tr>
 				<td align="center" colspan="5">
-				<!-- 페이지 네이 -->
-				<%=pageNavigator%>
+				<!-- 페이지 네비게이터 -->
+				${pageNavigator }
 				</td>
 			</tr>
 		</tfoot>
 	</table>
 	<p>
-		<!-- <input type="button" id="list" value="목록" />
-		<input type="button" id="write" value="글쓰기" /> -->
-		<input type="button" value="목록" onclick="goUrl('<%=request.getContextPath()%>/spring/board/boardListServlet');" />
-		<input type="button" value="글쓰기" onclick="goUrl('<%=request.getContextPath()%>/spring/board/boardWriteServlet')" />
+		<input type="button" value="목록" onclick="goUrl('${pageContext.request.contextPath }/spring/board/boardListServlet');" />
+		<input type="button" value="글쓰기" onclick="goUrl('${pageContext.request.contextPath }/spring/board/boardWriteServlet')" />
 	</p>
 </body>
 </html>

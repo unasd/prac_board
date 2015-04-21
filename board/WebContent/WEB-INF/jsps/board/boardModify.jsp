@@ -1,9 +1,7 @@
-<%@page import="model.board.BoardModel"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="model.board.BoardModel"%>
 <%@ page import="java.sql.*" %>
-<%
-	BoardModel boardModel = (BoardModel)request.getAttribute("boardModel");
-%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -28,10 +26,10 @@
 <body>
 	<form name="boardModifyForm" action="boardModifyServlet" method="post" onsubmit="return boardModifyCheck();">
 	<!-- <input type="hidden" name="mode" value="M" /> -->
-	<input type="hidden" name="num" value="<%=boardModel.getNum() %>" />
-	<input type="hidden" name="pageNum" value="<%=boardModel.getPageNum() %>" />
-	<input type="hidden" name="searchType" value="<%=boardModel.getSearchType() %>" />
-	<input type="hidden" name="searchText" value="<%=boardModel.getSearchText() %>" />
+	<input type="hidden" name="num" value="${boardModel.num}" />
+	<input type="hidden" name="pageNum" value="${boardModel.pageNum}" />
+	<input type="hidden" name="searchType" value="${boardModel.searchType}" />
+	<input type="hidden" name="searchText" value="${boardModel.searchText}" />
 	<table border="1" summary="게시판 수정 폼">
 		<caption>게시판 수정 폼</caption>
 		<colgroup>
@@ -41,15 +39,15 @@
 		<tbody>
 			<tr>
 				<th align="center">제목</th>
-				<td><input type="text" name="subject" size="80" maxlength="100" value="<%=boardModel.getSubject()%>"/></td>
+				<td><input type="text" name="subject" size="80" maxlength="100" value="${boardModel.subject}"/></td>
 			</tr>
 			<tr>
 				<th align="center">작성자</th>
-				<td><input type="text" name="writer" maxlength="20" value="<%=boardModel.getWriter()%>"/></td>
+				<td><input type="text" name="writer" maxlength="20" value="${boardModel.writer}"/></td>
 			</tr>
 			<tr>
 				<td colspan="2">
-					<textarea name="contents" rows="10" cols="80"><%=boardModel.getContents() %></textarea>
+					<textarea name="contents" rows="10" cols="80">${boardModel.contents }</textarea>
 					<script>
 					CKEDITOR.replace('contents');
 					</script>
@@ -58,7 +56,7 @@
 		</tbody>
 	</table>
 	<p>
-		<input type="button" value="목록" onclick="goUrl('<%=request.getContextPath()%>/spring/board/boardListServlet?pageNum=<%=boardModel.getPageNum()%>&searchType=<%=boardModel.getSearchType()%>&searchText=<%=boardModel.getSearchText() %>');" />
+		<input type="button" value="목록" onclick="goUrl('${pageContext.request.contextPath }/spring/board/boardListServlet?pageNum=${boardModel.pageNum }&searchType=${boardModel.searchType }&searchText=${boardModel.searchText }');" />
 		<input type="submit" value="글수정" />
 	</p>
 	</form>

@@ -11,6 +11,7 @@ import java.util.List;
 import com.sun.xml.internal.ws.Closeable;
 
 import model.board.BoardModel;
+import model.board.CommentModel;
 
 public class BoardDAO implements BoardDAOImpl {
 	Connection conn;
@@ -235,5 +236,23 @@ public class BoardDAO implements BoardDAOImpl {
 		if(rs!=null)try{rs.close();}catch(SQLException err){err.printStackTrace();}
 		if(pstmt!=null)try{pstmt.close();}catch(SQLException err){err.printStackTrace();}
 		if(conn!=null)try{conn.close();}catch(SQLException err){err.printStackTrace();}
+	}
+
+	@Override
+	public void commentWrite(CommentModel commenModel) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<CommentModel> commentSelect(CommentModel commentModel) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void commentDelete(CommentModel commentModel) {
+		// TODO Auto-generated method stub
+		
 	}
 }

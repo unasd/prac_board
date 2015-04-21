@@ -3,6 +3,7 @@ package dao.board;
 import java.util.List;
 
 import model.board.BoardModel;
+import model.board.CommentModel;
 
 public interface BoardDAOImpl {
 	public List<BoardModel> selectList(BoardModel boardModel);
@@ -12,4 +13,7 @@ public interface BoardDAOImpl {
 	public void update(BoardModel boardModel);
 	public void updateHit(BoardModel boardModel);
 	public void delete(BoardModel boardModel);
+	public void commentWrite(CommentModel commenModel);
+	public List<CommentModel> commentSelect(CommentModel commentModel);
+	public void commentDelete(CommentModel commentModel);
 }

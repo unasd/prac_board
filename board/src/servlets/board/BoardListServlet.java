@@ -63,7 +63,7 @@ public class BoardListServlet extends HttpServlet {
 		List<BoardModel> boardList = this.boardDAO.selectList(boardModel);
 		
 		request.setAttribute("totalCount", totalCount);
-		request.setAttribute("pageNavigator", new PageNavigator().getNavigator(
+		request.setAttribute("pageNavigator", new PageNavigator().getPageNavigator(
 				totalCount, boardModel.getListCount(), boardModel.getPagePerBlock(),
 				Integer.parseInt(pageNum), searchType, searchText));
 		request.setAttribute("boardList", boardList);
