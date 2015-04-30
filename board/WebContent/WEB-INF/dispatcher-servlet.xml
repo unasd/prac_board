@@ -10,8 +10,19 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans
 
 	<context:component-scan base-package="spring, dao" /> 
 	
-	
+	<!-- InternalResourceViewResolver는 항상 view값을 리턴하므로 우선순위를 가장 나중으로 설정 -->
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver" 
-		p:order="0" p:viewClass="org.springframework.web.servlet.view.JstlView"
+		p:order="1" p:viewClass="org.springframework.web.servlet.view.JstlView"
 		p:prefix="/WEB-INF/jsps/" p:suffix=".jsp"/>
+		
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" >
+		<property name="defaultEncoding" value="utf-8" />
+	</bean>
+	
+	<!-- 다운로드 처리를 위한 빈설정 -->
+	<bean id="downloadView" class="dao.board.DownLoadImple"/>
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver" 
+		p:order="0"/>
+	
+	
 </beans>

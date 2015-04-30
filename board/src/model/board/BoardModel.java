@@ -1,5 +1,7 @@
 package model.board;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class BoardModel {
 	private int num;
 	private String subject;
@@ -15,7 +17,6 @@ public class BoardModel {
 	private int listCount=10;
 	private int pagePerBlock=10;
 	private int startIndex=0;
-	
 	
 	
 	public int getStartIndex() {

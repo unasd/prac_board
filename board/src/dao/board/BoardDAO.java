@@ -12,6 +12,7 @@ import com.sun.xml.internal.ws.Closeable;
 
 import model.board.BoardModel;
 import model.board.CommentModel;
+import model.board.FileModel;
 
 public class BoardDAO implements BoardDAOImpl {
 	Connection conn;
@@ -252,6 +253,24 @@ public class BoardDAO implements BoardDAOImpl {
 
 	@Override
 	public void commentDelete(CommentModel commentModel) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void fileUpload(FileModel fileModel) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<FileModel> fileSelect(FileModel fileModel) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void fileDelete(FileModel fileModel) {
 		// TODO Auto-generated method stub
 		
 	}

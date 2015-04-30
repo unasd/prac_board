@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="board">
-
+	
 	<!-- 조건문 -->
 	<sql id="where"> 	
 		<where>
@@ -33,6 +33,7 @@
 			,HIT
 			,REG_DATE
 			,MOD_DATE
+			,comment_count
 		FROM
 			BOARD
 		<include refid="where" />
@@ -77,6 +78,7 @@
 			, hit
 			, reg_date
 			, mod_date
+			, comment_count
 		) VALUES (
 			#{subject}
 			, #{writer}
@@ -85,6 +87,7 @@
 			, 0
 			, now()
 			, now()
+			, 0
 		)
 	</insert>
 	
@@ -131,9 +134,42 @@
 			, #{linked_article_num}
 		)
 	</insert>
+	<update id="commentAdd">
+		UPDATE BOARD SET comment_count=comment_count+1 WHERE num=#{linked_article_num}
+	</update>
 	
 	<!-- 댓글 삭제 -->
 	<delete id="commentDelete" parameterType="commentModel">
 		DELETE FROM COMMENT WHERE idx=#{idx}
 	</delete>
+	<update id="commentDe">
+		UPDATE BOARD SET comment_count=comment_count-1 WHERE num=#{linked_article_num}
+	</update>
+	
+	<!-- 파일 업로드 -->
+	<insert id="fileUpload" parameterType="HashMap">
+		INSERT INTO FILE(
+			  file_name
+			, origin_file_name
+			, file_size
+			, article_num
+		) VALUES (
+			  #{file_name}
+			, #{origin_file_name}
+			, #{file_size}
+			, (SELECT MAX(num) FROM board)
+		)
+	</insert>
+	
+	<!-- 파일 경로 출력 -->
+	<select id="fileSelect" parameterType="fileModel" resultType="fileModel">
+		SELECT 
+			  file_num
+			, file_name
+			, origin_file_name
+			, file_size
+		FROM file
+		WHERE article_num=#{article_num}
+		ORDER BY file_num
+	</select>
 </mapper>

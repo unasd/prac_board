@@ -32,7 +32,7 @@
 </script>
 </head>
 <body>
-	<form name="boardWriteForm" action="boardWriteServlet" method="post" onsubmit="return boardWriteCheck();">
+	<form name="boardWriteForm" action="boardWriteServlet" method="post" onsubmit="return boardWriteCheck();" enctype="multipart/form-data">
 	<input type="hidden" name="mode" value="W" />
 	<table border="1" summary="게시판 등록 폼">
 		<caption>게시판 등록 폼</caption>
@@ -48,6 +48,10 @@
 			<tr>
 				<th align="center">작성자</th>
 				<td><input type="text" name="writer" maxlength="20"/></td>
+			</tr>
+			<tr>
+				<th align="center">첨부파일</th>
+				<td><input type="file" name="uploadfile" multiple="multiple"/></td>
 			</tr>
 			<tr>
 				<td colspan="2">

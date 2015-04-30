@@ -4,6 +4,7 @@ import java.util.List;
 
 import model.board.BoardModel;
 import model.board.CommentModel;
+import model.board.FileModel;
 import mybatis.MyBatis;
 
 import org.apache.ibatis.session.SqlSession;
@@ -15,6 +16,7 @@ public class BoardMyBatisDAO implements BoardDAOImpl {
 	private SqlSessionFactory sessionFactory = null;
 	
 	public BoardMyBatisDAO(){
+		//System.out.println("boardmybatisdao create");
 		this.sessionFactory = MyBatis.getSqlSessionFactory();
 	}
 	
@@ -124,6 +126,7 @@ public class BoardMyBatisDAO implements BoardDAOImpl {
 		SqlSession session = this.sessionFactory.openSession();
 		try{
 			session.insert("board.commentWrite", commentModel);
+			session.update("board.commentAdd", commentModel);
 		} catch (Exception err){
 			err.printStackTrace();
 		} finally {
@@ -153,6 +156,7 @@ public class BoardMyBatisDAO implements BoardDAOImpl {
 		SqlSession session = this.sessionFactory.openSession();
 		try{
 			session.delete("board.commentDelete", commentModel);
+			session.update("board.commentDe", commentModel);
 		} catch (Exception err){
 			err.printStackTrace();
 		} finally {
@@ -161,6 +165,40 @@ public class BoardMyBatisDAO implements BoardDAOImpl {
 			}
 		}
 	}
-	
-	
+
+	@Override
+	public void fileUpload(FileModel fileModel) {
+		SqlSession session = this.sessionFactory.openSession();
+		try{
+			session.insert("board.fileUpload", fileModel);
+		} catch (Exception err){
+			err.printStackTrace();
+		} finally {
+			if(session!=null){
+				session.close();
+			}
+		}
+	}
+
+	@Override
+	public List<FileModel> fileSelect(FileModel fileModel) {
+		SqlSession session = this.sessionFactory.openSession();
+		try{
+			//System.out.println("myBatis selectList");
+			return session.selectList("board.fileSelect", fileModel);
+		} catch(Exception err){
+			err.printStackTrace();
+		} finally{
+			if(session!=null){
+				session.close();
+			}
+		}
+		return null;
+	}
+
+	@Override
+	public void fileDelete(FileModel fileModel) {
+		// TODO Auto-generated method stub
+		
+	}
 }

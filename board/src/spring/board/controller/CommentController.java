@@ -40,7 +40,7 @@ public class CommentController {
 		String searchType = boardModel.getSearchType();
 		String searchText = boardModel.getSearchText();
 		int num = boardModel.getNum();
-		String idx = commentModel.getIdx();
+		commentModel.setLinked_article_num(num);
 		
 		boardDAO.commentDelete(commentModel);
 		return "redirect:boardViewServlet?num="+num+"&pageNum="+pageNum+"&searchType="+searchType+"&searchText="+searchText;

@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import model.board.BoardModel;
 import model.board.CommentModel;
+import model.board.FileModel;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,7 +23,8 @@ public class BoardViewController {
 	private BoardDAOImpl boardDAO;
 	
 	@RequestMapping("/board/boardViewServlet")
-	public String select(HttpServletRequest request, BoardModel boardModel, Model model, CommentModel commentModel){
+	public String select(HttpServletRequest request, BoardModel boardModel, Model model, 
+													CommentModel commentModel, FileModel fileModel){
 		String pageNum = boardModel.getPageNum();
 		String searchType = boardModel.getSearchType();
 		String searchText = boardModel.getSearchText();
@@ -37,8 +39,18 @@ public class BoardViewController {
 		commentModel.setLinked_article_num(boardModel.getNum());
 		List<CommentModel> commentList = boardDAO.commentSelect(commentModel);
 		
+		fileModel.setArticle_num(boardModel.getNum());
+		List<FileModel> fileList = boardDAO.fileSelect(fileModel);
+		/*String sizes[] = {"Bytes", "KB", "MB", "GB", "TB"};
+		for(FileModel oneFileModel : fileList){
+			System.out.println(oneFileModel.getFile_size());
+			if(oneFileModel.getFile_size()<1024){
+			}
+		}*/
+		
 		model.addAttribute("boardModel", boardModel);
 		model.addAttribute("commentList", commentList);
+		model.addAttribute("fileList", fileList);
 		
 		return "/board/boardView";
 	}

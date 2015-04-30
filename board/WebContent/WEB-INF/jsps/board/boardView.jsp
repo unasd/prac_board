@@ -18,6 +18,10 @@
 	function goUrl(url) {
 		location.href=url;
 	}
+	
+	function bytesToSize(bytes){
+		
+	}
 </script>
 </head>
 <body>
@@ -40,6 +44,25 @@
 				<th align="center">등록 일시</th>
 				<fmt:parseDate value="${boardModel.reg_date }" var="date" pattern="yyyy-MM-dd HH:mm:ss" />
 				<td><fmt:formatDate value="${date}" pattern="yyyy년 MM월 dd일 HH:mm:ss"/></td>
+			</tr>
+			<tr>
+				<th align="center">첨부파일</th>
+			<c:choose>
+				<c:when test="${fileList.size() == 1 }">
+					<c:set var="fileModel" value="${fileList[0] }"/>
+					<td><a href="/board/spring/download?file_name=${fileModel.file_name }&origin_file_name=${fileModel.origin_file_name}">${fileModel.origin_file_name }</a> (${fileModel.file_size }&nbsp;bytes)</td>
+				</c:when>
+				<c:when test="${fileList.size() > 1 }">
+					<td>
+						<c:forEach items="${fileList }" var="fileModel" varStatus="status">
+							<a href="/board/spring/download?file_name=${fileModel.file_name }&origin_file_name=${fileModel.origin_file_name}">${fileModel.origin_file_name }</a> (${fileModel.file_size }&nbsp;bytes)<br/>
+						</c:forEach>
+					</td>
+				</c:when>
+				<c:otherwise>
+					<td>없음</td>
+				</c:otherwise>
+			</c:choose>
 			</tr>
 			<tr>
 				<td colspan="2">${boardModel.contents }</td>
@@ -114,7 +137,7 @@
 	
 	$("[name=delButton]").on("click", function(e){
 		e.preventDefault();
-		if(confirm("댓글삭제?")){
+		if(confirm("댓글을 삭제하시겠습니까?")){
 			$("#commentDelForm").submit();
 		}
 	})
